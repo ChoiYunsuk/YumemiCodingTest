@@ -8,8 +8,9 @@
 
 import UIKit
 
-class ViewController: UITableViewController, UISearchBarDelegate {
+class SearchViewController: UITableViewController {
 
+    // 変数名を全般的に直す。
     @IBOutlet weak var SchBr: UISearchBar!
     
     var repo: [[String: Any]]=[]
@@ -26,42 +27,10 @@ class ViewController: UITableViewController, UISearchBarDelegate {
         SchBr.delegate = self
     }
     
-    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        // ↓こうすれば初期のテキストを消せる
-        searchBar.text = ""
-        return true
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        task?.cancel()
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
-        word = searchBar.text!
-        
-        if word.count != 0 {
-            url = "https://api.github.com/search/repositories?q=\(word!)"
-            task = URLSession.shared.dataTask(with: URL(string: url)!) { (data, res, err) in
-                if let obj = try! JSONSerialization.jsonObject(with: data!) as? [String: Any] {
-                    if let items = obj["items"] as? [[String: Any]] {
-                    self.repo = items
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
-                    }
-                }
-            }
-        // これ呼ばなきゃリストが更新されません
-        task?.resume()
-        }
-        
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "Detail"{
-            let dtl = segue.destination as! ViewController2
+            let dtl = segue.destination as! DetailViewController
             dtl.vc1 = self
         }
         
@@ -90,3 +59,41 @@ class ViewController: UITableViewController, UISearchBarDelegate {
     }
     
 }
+
+//MARK: - UISearchBarDelegate
+extension SearchViewController: UISearchBarDelegate {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        // ↓こうすれば初期のテキストを消せる
+        searchBar.text = ""
+        return true
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        task?.cancel()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        // forced ここ直す。
+
+        word = searchBar.text!
+        
+        if word.count != 0 {
+            url = "https://api.github.com/search/repositories?q=\(word!)"
+            task = URLSession.shared.dataTask(with: URL(string: url)!) { (data, res, err) in
+                if let obj = try! JSONSerialization.jsonObject(with: data!) as? [String: Any] {
+                    if let items = obj["items"] as? [[String: Any]] {
+                    self.repo = items
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
+                    }
+                }
+            }
+        // これ呼ばなきゃリストが更新されません
+        task?.resume()
+        }
+        
+    }
+}
+
