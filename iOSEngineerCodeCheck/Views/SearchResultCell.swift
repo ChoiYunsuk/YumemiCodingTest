@@ -11,12 +11,15 @@ import UIKit
 class SearchResultCell: UITableViewCell {
 
     @IBOutlet var fullNameLabel: UILabel!
+    @IBOutlet var languageLabel: UILabel!
     
     static let cellIdentifier = "SearchResultCell"
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        fullNameLabel.numberOfLines = 2
+        languageLabel.numberOfLines = 2
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

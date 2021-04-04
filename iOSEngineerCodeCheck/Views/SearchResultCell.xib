@@ -17,15 +17,30 @@
                 <rect key="frame" x="0.0" y="0.0" width="438" height="118"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gTs-mY-T0l">
-                        <rect key="frame" x="10" y="10" width="418" height="98"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gTs-mY-T0l">
+                        <rect key="frame" x="10" y="10" width="200" height="98"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="98" id="1dA-1D-BF8"/>
+                            <constraint firstAttribute="width" constant="200" id="Rvo-mG-3Py"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zjC-fR-yIk">
+                        <rect key="frame" x="278" y="10" width="150" height="98"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="150" id="OXd-zq-JuN"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="gTs-mY-T0l" secondAttribute="trailing" constant="10" id="1rp-lQ-HoV"/>
+                    <constraint firstAttribute="trailing" secondItem="zjC-fR-yIk" secondAttribute="trailing" constant="10" id="N1N-Sx-WXe"/>
+                    <constraint firstAttribute="bottom" secondItem="zjC-fR-yIk" secondAttribute="bottom" constant="10" id="adR-Q0-SOa"/>
+                    <constraint firstItem="zjC-fR-yIk" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="fkj-dz-e3Q"/>
                     <constraint firstItem="gTs-mY-T0l" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="sE2-OA-dCd"/>
                     <constraint firstItem="gTs-mY-T0l" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="scS-yy-W4l"/>
                     <constraint firstAttribute="bottom" secondItem="gTs-mY-T0l" secondAttribute="bottom" constant="10" id="yty-m1-SkG"/>
@@ -34,8 +49,9 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="fullNameLabel" destination="gTs-mY-T0l" id="6T5-5s-aPq"/>
+                <outlet property="languageLabel" destination="zjC-fR-yIk" id="Y08-lI-9HH"/>
             </connections>
-            <point key="canvasLocation" x="-418.84057971014494" y="155.35714285714286"/>
+            <point key="canvasLocation" x="-833.33333333333337" y="59.598214285714285"/>
         </tableViewCell>
     </objects>
 </document>

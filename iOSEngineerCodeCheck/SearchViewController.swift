@@ -8,18 +8,16 @@
 
 import UIKit
 
-class SearchViewController: UITableViewController {
+class SearchViewController: UITableViewController{
 
     // 変数名を全般的に直す。
     @IBOutlet weak var SchBr: UISearchBar!
     @IBOutlet var searchResultTableView: UITableView!
     
-    var repo: [[String: Any]]=[]
-    
-    var task: URLSessionTask?
-    var word: String!
-    var url: String!
+    // 要るか要らないか確認
     var idx: Int!
+    
+    let searchRepos = SearchRepository()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,35 +25,35 @@ class SearchViewController: UITableViewController {
         SchBr.text = "GitHubのリポジトリを検索できるよー"
         SchBr.delegate = self
         
+        // 検索結果表示TableViewのCell登録
         searchResultTableView.register(SearchResultCell.nib(), forCellReuseIdentifier: SearchResultCell.cellIdentifier)
+        
+        searchRepos.delegate = self
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "Detail"{
+        if segue.identifier == "toDetail"{
             let dtl = segue.destination as! DetailViewController
             dtl.vc1 = self
         }
-        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return repo.count
+        return searchRepos.items.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultCell.cellIdentifier, for: indexPath) as! SearchResultCell
                     
-        let rp = repo[indexPath.row]
+        let repos = searchRepos.items[indexPath.row]
         
-        cell.fullNameLabel?.text = rp["full_name"] as? String ?? ""
-        
-//        cell.textLabel?.text = rp["full_name"] as? String ?? ""
-//        cell.detailTextLabel?.text = rp["language"] as? String ?? ""
-//        cell.tag = indexPath.row
+        cell.fullNameLabel?.text = repos["full_name"] as? String ?? ""
+        cell.languageLabel?.text = repos["language"] as? String ?? ""
+        cell.tag = indexPath.row
+
         return cell
-        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -74,29 +72,22 @@ extension SearchViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        task?.cancel()
+        //task?.cancel()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        
-        // forced ここ直す。
-        word = searchBar.text!
-        
-        if word.count != 0 {
-            url = "https://api.github.com/search/repositories?q=\(word!)"
-            task = URLSession.shared.dataTask(with: URL(string: url)!) { (data, res, err) in
-                if let obj = try! JSONSerialization.jsonObject(with: data!) as? [String: Any] {
-                    if let items = obj["items"] as? [[String: Any]] {
-                        self.repo = items
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
-                    }
-                }
-            }
-        // これ呼ばなきゃリストが更新されません
-        task?.resume()
-        }
+        // 検索するWordセット
+        searchRepos.searchTargetWord = searchBar.text!
+        // 検索実行
+        searchRepos.test()
     }
 }
 
+//MARK: - SearchedDelegate（レポジトリ検索終了お知らせ）
+extension SearchViewController: SearchedDelegate {
+    func didSearchedRepository(_ controller: SearchRepository, message: Bool) {
+        if message == true {
+            self.tableView.reloadData()
+        }
+    }
+}
