@@ -12,6 +12,7 @@ class SearchViewController: UITableViewController {
 
     // 変数名を全般的に直す。
     @IBOutlet weak var SchBr: UISearchBar!
+    @IBOutlet var searchResultTableView: UITableView!
     
     var repo: [[String: Any]]=[]
     
@@ -25,6 +26,8 @@ class SearchViewController: UITableViewController {
         // Do any additional setup after loading the view.
         SchBr.text = "GitHubのリポジトリを検索できるよー"
         SchBr.delegate = self
+        
+        searchResultTableView.register(SearchResultCell.nib(), forCellReuseIdentifier: SearchResultCell.cellIdentifier)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -42,11 +45,15 @@ class SearchViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultCell.cellIdentifier, for: indexPath) as! SearchResultCell
+                    
         let rp = repo[indexPath.row]
-        cell.textLabel?.text = rp["full_name"] as? String ?? ""
-        cell.detailTextLabel?.text = rp["language"] as? String ?? ""
-        cell.tag = indexPath.row
+        
+        cell.fullNameLabel?.text = rp["full_name"] as? String ?? ""
+        
+//        cell.textLabel?.text = rp["full_name"] as? String ?? ""
+//        cell.detailTextLabel?.text = rp["language"] as? String ?? ""
+//        cell.tag = indexPath.row
         return cell
         
     }
@@ -54,10 +61,8 @@ class SearchViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 画面遷移時に呼ばれる
         idx = indexPath.row
-        performSegue(withIdentifier: "Detail", sender: self)
-        
+        performSegue(withIdentifier: "toDetail", sender: self)
     }
-    
 }
 
 //MARK: - UISearchBarDelegate
@@ -75,7 +80,6 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
         // forced ここ直す。
-
         word = searchBar.text!
         
         if word.count != 0 {
@@ -83,7 +87,7 @@ extension SearchViewController: UISearchBarDelegate {
             task = URLSession.shared.dataTask(with: URL(string: url)!) { (data, res, err) in
                 if let obj = try! JSONSerialization.jsonObject(with: data!) as? [String: Any] {
                     if let items = obj["items"] as? [[String: Any]] {
-                    self.repo = items
+                        self.repo = items
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
                         }
@@ -93,7 +97,6 @@ extension SearchViewController: UISearchBarDelegate {
         // これ呼ばなきゃリストが更新されません
         task?.resume()
         }
-        
     }
 }
 

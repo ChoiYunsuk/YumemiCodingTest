@@ -26,14 +26,14 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let repo = vc1.repo[vc1.idx]
-        
-        LangLbl.text = "Written in \(repo["language"] as? String ?? "")"
-        StrsLbl.text = "\(repo["stargazers_count"] as? Int ?? 0) stars"
-        WchsLbl.text = "\(repo["wachers_count"] as? Int ?? 0) watchers"
-        FrksLbl.text = "\(repo["forks_count"] as? Int ?? 0) forks"
-        IsssLbl.text = "\(repo["open_issues_count"] as? Int ?? 0) open issues"
-        getImage()
+//        let repo = vc1.repo[vc1.idx]
+//
+//        LangLbl.text = "Written in \(repo["language"] as? String ?? "")"
+//        StrsLbl.text = "\(repo["stargazers_count"] as? Int ?? 0) stars"
+//        WchsLbl.text = "\(repo["wachers_count"] as? Int ?? 0) watchers"
+//        FrksLbl.text = "\(repo["forks_count"] as? Int ?? 0) forks"
+//        IsssLbl.text = "\(repo["open_issues_count"] as? Int ?? 0) open issues"
+//        getImage()
         
     }
     

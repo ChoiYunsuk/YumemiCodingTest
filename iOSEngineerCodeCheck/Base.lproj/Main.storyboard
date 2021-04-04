@@ -55,8 +55,9 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Root View Controller" id="ktq-eC-ZBq"/>
                     <connections>
-                        <outlet property="SchBr" destination="6rq-CD-Hob" id="q7R-6U-oJe"/>
-                        <segue destination="AHY-RL-7mG" kind="show" identifier="Detail" id="xAk-e0-paw"/>
+                        <outlet property="SchBr" destination="6rq-CD-Hob" id="pdb-Oa-Dnh"/>
+                        <outlet property="searchResultTableView" destination="Fpt-Ev-QNW" id="Ybq-Ca-oMG"/>
+                        <segue destination="AHY-RL-7mG" kind="show" identifier="toDetail" id="xAk-e0-paw"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xer-fe-JeW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
