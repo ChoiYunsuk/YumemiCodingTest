@@ -89,8 +89,27 @@
 			children = (
 				7478A22626198E10006023F5 /* SearchResultCell.swift */,
 				7478A22726198E10006023F5 /* SearchResultCell.xib */,
+				BFD945E4244DC5E80012785A /* Main.storyboard */,
+				BFD945E9244DC5EB0012785A /* LaunchScreen.storyboard */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		7495162C261D80DD007177E4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7478A2302619967E006023F5 /* SearchRepository.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		7495163D261DA6AD007177E4 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BFD945E2244DC5E80012785A /* SearchViewController.swift */,
+				BF0A658C244F2A3B00280FA6 /* DetailViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		BFD945D2244DC5E80012785A = {
@@ -116,16 +135,13 @@
 		BFD945DD244DC5E80012785A /* iOSEngineerCodeCheck */ = {
 			isa = PBXGroup;
 			children = (
+				7495162C261D80DD007177E4 /* Models */,
 				7478A20D261984D2006023F5 /* Views */,
+				7495163D261DA6AD007177E4 /* Controllers */,
 				BFD945DE244DC5E80012785A /* AppDelegate.swift */,
 				BFD945E0244DC5E80012785A /* SceneDelegate.swift */,
-				BFD945E2244DC5E80012785A /* SearchViewController.swift */,
-				BF0A658C244F2A3B00280FA6 /* DetailViewController.swift */,
-				BFD945E4244DC5E80012785A /* Main.storyboard */,
 				BFD945E7244DC5EB0012785A /* Assets.xcassets */,
-				BFD945E9244DC5EB0012785A /* LaunchScreen.storyboard */,
 				BFD945EC244DC5EB0012785A /* Info.plist */,
-				7478A2302619967E006023F5 /* SearchRepository.swift */,
 			);
 			path = iOSEngineerCodeCheck;
 			sourceTree = "<group>";

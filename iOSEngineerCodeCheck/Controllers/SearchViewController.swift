@@ -14,8 +14,7 @@ class SearchViewController: UITableViewController{
     @IBOutlet weak var SchBr: UISearchBar!
     @IBOutlet var searchResultTableView: UITableView!
     
-    // 要るか要らないか確認
-    var idx: Int!
+    var selectedRowNumber: Int = 0
     
     let searchRepos = SearchRepository()
     
@@ -27,18 +26,20 @@ class SearchViewController: UITableViewController{
         
         // 検索結果表示TableViewのCell登録
         searchResultTableView.register(SearchResultCell.nib(), forCellReuseIdentifier: SearchResultCell.cellIdentifier)
-        
-        searchRepos.delegate = self
+        searchRepos.notifySearch = self
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "toDetail"{
             let dtl = segue.destination as! DetailViewController
-            dtl.vc1 = self
+            dtl.searchResult = self.searchRepos
         }
     }
-    
+}
+
+//MARK: - UITableView
+extension SearchViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchRepos.items.count
     }
@@ -58,7 +59,7 @@ class SearchViewController: UITableViewController{
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 画面遷移時に呼ばれる
-        idx = indexPath.row
+        searchRepos.selectedRowNumber = indexPath.row
         performSegue(withIdentifier: "toDetail", sender: self)
     }
 }
@@ -77,14 +78,14 @@ extension SearchViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         // 検索するWordセット
-        searchRepos.searchTargetWord = searchBar.text!
+        searchRepos.searchWord = searchBar.text!
         // 検索実行
-        searchRepos.test()
+        searchRepos.execute()
     }
 }
 
-//MARK: - SearchedDelegate（レポジトリ検索終了お知らせ）
-extension SearchViewController: SearchedDelegate {
+//MARK: - NotifySearchFinished（レポジトリ検索終了お知らせ）
+extension SearchViewController: NotifySearchFinished {
     func didSearchedRepository(_ controller: SearchRepository, message: Bool) {
         if message == true {
             self.tableView.reloadData()
